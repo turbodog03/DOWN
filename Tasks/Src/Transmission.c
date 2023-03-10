@@ -20,6 +20,8 @@ BCPImuTypeDef imu_tx_data;
 BCPCtrlTypeDef ctrl_tx_data;
 BCPCtrlTypeDef ctrl_rx_data;
 
+
+BCPGimStateTypeDef gim_state_data; // ÔÆÌ¨×´Ì¬Êý¾Ý
 extern float chassis_vx;
 extern float chassis_vy;
 extern float chassis_vw;

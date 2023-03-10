@@ -10,6 +10,7 @@
 /* BCP通讯协议相关 */
 //TODO: 考虑不同帧长的情况
 #define FRAME_NUM     10        /* 所有通讯帧的类型总数 */
+#define GIMBAL_STATE_LEN         4   /* 云台状态数据长度 */
 #define FRAME_MAX_LEN 40        /* 通讯帧的最大长度 */
 #define FRAME_RPY_LEN 13        /* 欧拉角rpy方式控制长度 */
 #define FRAME_ODOM_LEN 36       /* 里程计控制方式长度 */
@@ -102,6 +103,20 @@ typedef  struct
     uint8_t AC;                     /*! 附加校验 */
 }__attribute__((packed)) BCPCtrlTypeDef;
 
+/**
+  * @brief  发送云台信息结构体
+  */
+typedef  struct
+{
+    uint8_t HEAD;  				    /*! 帧头 */
+    uint8_t D_ADDR;                 /*! 目标地址 */
+    uint8_t ID;                     /*! 功能码 */
+    uint8_t LEN;                    /*! 数据长度 */
+    int8_t DATA[GIMBAL_STATE_LEN];    /*! 数据内容 */
+    uint8_t SC;                     /*! 和校验 */
+    uint8_t AC;                     /*! 附加校验 */
+}__attribute__((packed)) BCPGimStateTypeDef;
+
 extern BCPFrameTypeDef upper_rx_data;       //接收上位机数据中转帧
 extern BCPFrameTypeDef upper_tx_data;       //发送上位机数据中转帧
 extern BCPFrameTypeDef upper_tx_all_data[FRAME_NUM];       //合并发送上位机数据帧
@@ -113,6 +128,7 @@ extern BCPImuTypeDef imu_tx_data;           //发送里程计方式控制数据帧
 extern BCPCtrlTypeDef ctrl_tx_data;         //发送角/线速度方式控制数据帧
 extern BCPCtrlTypeDef ctrl_rx_data;         //接收角/线速度方式控制数据帧
 
+extern BCPGimStateTypeDef gim_state_data;  // 发送云台状态的数据帧
 
 void Chassis_Send_supercap(void);
 

@@ -96,6 +96,11 @@ void Chassis_Init_param(void)
 void Chassis_Get_mode(void){
     chassis.last_mode = chassis.ctrl_mode;
 
+    /* 云台失能，底盘也得跟着失能 */
+    if (gim_state_data.DATA[0] == 1) {
+        chassis.ctrl_mode = CHASSIS_RELAX;
+    }
+
     switch (chassis.ctrl_mode) {
         case CHASSIS_FOLLOW_GIMBAL:
             if (rc.kb.bit.E){
